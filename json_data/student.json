@@ -1,0 +1,9 @@
+{
+    "name":"MrGENERAL",
+    "age":20,
+    "rollNo":18,
+    "program":"BSCS",
+    "subjects":["flutter","dart","json"],
+    "atributes":{"height":5.8,"color":"white"}
+
+}
