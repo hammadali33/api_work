@@ -95,7 +95,7 @@ class _Covid2State extends State<Covid2> {
                       shrinkWrap: true,
                       itemCount: txtlist.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2),
+                          crossAxisCount: 2, childAspectRatio: 1.5),
                       itemBuilder: (e, i) => mycard(
                           txtlist[i],
                           numlist[i],
