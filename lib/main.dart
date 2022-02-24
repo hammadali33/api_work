@@ -1,5 +1,6 @@
 import 'package:api_work/api_work2/api_work2.dart';
 import 'package:api_work/covid19/covid19.dart';
+import 'package:api_work/covid19/covid2.dart';
 import 'package:api_work/firebase/firebase_main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Covid19(),
+      home: Covid2(),
     );
   }
 }

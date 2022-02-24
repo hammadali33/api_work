@@ -1,17 +1,18 @@
 import 'dart:convert';
+import 'dart:math';
 
-import 'package:api_work/covid19/covid19_model.dart';
+import 'package:api_work/Covid19/Covid19_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class Covid19 extends StatefulWidget {
-  const Covid19({Key? key}) : super(key: key);
+class Covid2 extends StatefulWidget {
+  const Covid2({Key? key}) : super(key: key);
 
   @override
-  State<Covid19> createState() => _Covid19State();
+  State<Covid2> createState() => _Covid2State();
 }
 
-class _Covid19State extends State<Covid19> {
+class _Covid2State extends State<Covid2> {
   Future<Covid19Model> fetchdata() async {
     Covid19Model cm;
     String url = "https://coronavirus-19-api.herokuapp.com/countries/Pakistan";
@@ -30,6 +31,18 @@ class _Covid19State extends State<Covid19> {
 
   @override
   Widget build(BuildContext context) {
+    var txtlist = [
+      "Total Cases",
+      "Total todayCases",
+      "Total deaths",
+      "Total todayDeaths",
+      "Total recovered",
+      "Total active",
+      "Total critical",
+      "Total casesPerOneMill",
+      "Total deathsPerOnMill",
+      "Total totalTest"
+    ];
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -50,6 +63,19 @@ class _Covid19State extends State<Covid19> {
               if (!snapshot.hasData) {
                 return Center(child: CircularProgressIndicator());
               }
+              var data = snapshot.data!;
+              var numlist = [
+                data.cases!,
+                data.todayCases,
+                data.deaths!,
+                data.todayDeaths!,
+                data.recovered!,
+                data.active!,
+                data.critical!,
+                data.casesPerOneMillion!,
+                data.deathsPerOneMillion!,
+                data.totalTests!,
+              ];
               return Column(children: [
                 Center(
                   child: Container(
@@ -65,84 +91,22 @@ class _Covid19State extends State<Covid19> {
                   ),
                 ),
                 Expanded(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: mycard(
-                            "Total Cases", snapshot.data!.cases!, Colors.blue),
-                      ),
-                      Expanded(
-                        child: mycard("Total todayCases",
-                            snapshot.data!.todayCases!, Colors.green),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: mycard(
-                            "Total deaths", snapshot.data!.deaths!, Colors.red),
-                      ),
-                      Expanded(
-                        child: mycard("Total todayDeaths",
-                            snapshot.data!.todayDeaths!, Colors.orange),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: mycard("Total recovered",
-                            snapshot.data!.recovered!, Colors.pink),
-                      ),
-                      Expanded(
-                        child: mycard("Total active", snapshot.data!.active!,
-                            Colors.purple),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: mycard("Total critical",
-                            snapshot.data!.critical!, Colors.blueAccent),
-                      ),
-                      Expanded(
-                        child: mycard(
-                            "Total casesPerOneMill",
-                            snapshot.data!.casesPerOneMillion!,
-                            Colors.blueGrey),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: mycard(
-                            "Total deathsPerOnMill",
-                            snapshot.data!.deathsPerOneMillion!,
-                            Colors.purpleAccent),
-                      ),
-                      Expanded(
-                        child: mycard("Total totalTest",
-                            snapshot.data!.totalTests!, Colors.pink),
-                      ),
-                    ],
-                  ),
-                ),
+                  child: GridView.builder(
+                      shrinkWrap: true,
+                      itemCount: txtlist.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2),
+                      itemBuilder: (e, i) => mycard(
+                          txtlist[i],
+                          numlist[i],
+                          Colors.primaries[
+                              Random().nextInt(Colors.primaries.length)])),
+                )
               ]);
             }));
   }
 
-  Card mycard(String total, int num, Color c) {
+  Card mycard(var total, var num, Color c) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       color: c,
@@ -160,7 +124,7 @@ class _Covid19State extends State<Covid19> {
               height: 5,
             ),
             Text(
-              total,
+              "$total",
               style:
                   TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
             ),
